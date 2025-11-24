@@ -11,7 +11,7 @@ public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_cliente")
-    private long id;
+    private Long id;
     @Column(length = 100, nullable = false)
     private String nome;
     @Column(length = 11, nullable = false, unique = true)
@@ -38,7 +38,7 @@ public class Cliente {
         this.dataCadastro = LocalDate.now();
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
