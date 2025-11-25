@@ -3,7 +3,7 @@ package com.grupo8.concessionaria.model.entities;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
-import java.util.*;
+//import java.util.*;
 
 @Entity
 @Table(name = "clientes")
