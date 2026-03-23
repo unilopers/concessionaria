@@ -83,6 +83,44 @@ Para as rotas protegidas, envie a chave no header abaixo:
 x-api-key: concessionaria-api-key-2026
 ```
 
+### Endpoints protegidos e públicos
+
+- Rotas de negócio (como `/clientes`, `/funcionarios`, `/vendas`, `/ordens-servico`, etc.) são protegidas por API Key.
+- Rotas públicas permanecem acessíveis sem chave:
+   - `/public/**`
+   - `/h2-console/**`
+
+### Resposta de erro padronizada
+
+Quando a API Key estiver ausente ou inválida, a API responde com `401 Unauthorized` no formato:
+
+```json
+{
+   "code": "API_KEY_MISSING",
+   "message": "API Key ausente. Informe a chave no header x-api-key.",
+   "status": 401,
+   "timestamp": "2026-03-16T12:00:00Z",
+   "path": "/clientes"
+}
+```
+
+Para chave inválida, o campo `code` será `API_KEY_INVALID`.
+
+### Testes de acesso
+
+Os testes de integração validam:
+
+- acesso negado em rota protegida sem chave;
+- acesso negado em rota protegida com chave inválida;
+- acesso permitido em rota protegida com chave válida;
+- acesso permitido em rota pública sem chave.
+
+Execute:
+
+```bash
+./mvnw test
+```
+
 ### Como alterar a chave
 
 Basta editar o valor da propriedade `auth.api-key` no arquivo `application.properties`.
