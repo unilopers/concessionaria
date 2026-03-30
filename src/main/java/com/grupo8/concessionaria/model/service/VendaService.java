@@ -1,5 +1,6 @@
 package com.grupo8.concessionaria.model.service;
 
+import com.grupo8.concessionaria.async.venda.VendaAsyncService;
 import com.grupo8.concessionaria.model.entities.Cliente;
 import com.grupo8.concessionaria.model.entities.Funcionario;
 import com.grupo8.concessionaria.model.entities.Venda;
@@ -21,6 +22,8 @@ public class VendaService {
     private ClienteRepository clienteRepository;
     @Autowired
     private FuncionarioRepository funcionarioRepository;
+    @Autowired
+    private VendaAsyncService vendaAsyncService;
 
     public Venda novaVenda(Venda venda) throws Exception {
 
@@ -46,7 +49,9 @@ public class VendaService {
             venda.setDataVenda(LocalDateTime.now());
         }
 
-        return vendaRepository.save(venda);
+        Venda salva = vendaRepository.save(venda);
+        vendaAsyncService.processarMovimentacaoVenda(salva);
+        return salva;
     }
 
     public List<Venda> listarVendas() {
